@@ -68,7 +68,7 @@ public class OboloiVPN extends Activity {
         OboloiVPN.profileId = profileId;
         if(profileIntent != null) {
             activity.startActivityForResult(OboloiVPN.profileIntent, 1);
-            if(listener!=null) listener.onActivityForResult(true);
+            if(listener!=null) listener.onActivityForResultChanged(true);
             return;
         }
         if(listener != null) listener.onProfileLoaded(true);
