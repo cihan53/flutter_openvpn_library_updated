@@ -45,7 +45,7 @@ public class OboloiVPN extends Activity {
         VpnStatus.initLogCache(activity.getCacheDir());
     }
 
-    public OboloiVPN(){
+    public OboloiVPN() {
         OboloiVPN.vpnStart = false;
         OboloiVPN.vpnThread = new OpenVPNThread();
         OboloiVPN.vpnService = new OpenVPNService();
@@ -57,7 +57,7 @@ public class OboloiVPN extends Activity {
         //LocalBroadcastManager.getInstance(activity).registerReceiver(broadcastReceiver, new IntentFilter("connectionState"));
     }
 
-    public void launchVPN(String ovpnFileContent,String expireAt, String user,  String pass, String country,String profileId, int timeOutInSeconds){
+    public void launchVPN(String ovpnFileContent, String expireAt, String user, String pass, String country, String profileId, int timeOutInSeconds) {
         OboloiVPN.ovpnFileContent = ovpnFileContent;
         OboloiVPN.expireAt = expireAt;
         OboloiVPN.profileIntent = VpnService.prepare(activity);
@@ -66,19 +66,18 @@ public class OboloiVPN extends Activity {
         OboloiVPN.country = country;
         OboloiVPN.timeOutInSeconds = timeOutInSeconds;
         OboloiVPN.profileId = profileId;
-        if(profileIntent != null) {
-            if(listener!=null) listener.onActivityForResultChanged(true);
+        if (profileIntent != null) {
             activity.startActivityForResult(OboloiVPN.profileIntent, 1);
             return;
         }
-        if(listener != null) listener.onProfileLoaded(true);
+        if (listener != null) listener.onProfileLoaded(true);
     }
 
     public void onPermissionChanged(boolean permitted) {
         if (permitted) {
-            if(listener != null) listener.onProfileLoaded(true);
-        }else {
-            if(listener != null) listener.onProfileLoaded(false);
+            if (listener != null) listener.onProfileLoaded(true);
+        } else {
+            if (listener != null) listener.onProfileLoaded(false);
         }
     }
 
@@ -91,15 +90,15 @@ public class OboloiVPN extends Activity {
 
     private void launchVPN() {
         if (!vpnStart) {
-                    startVpn();
-                    //connecting status
+            startVpn();
+            //connecting status
         }
     }
 
-    public void init(){
-        if(vpnStart){
+    public void init() {
+        if (vpnStart) {
             stopVpn();
-        }else{
+        } else {
             startVpn();
         }
     }
@@ -120,7 +119,7 @@ public class OboloiVPN extends Activity {
     private void startVpn() {
         try {
 
-            OpenVpnApi.startVpn(activity, ovpnFileContent, country, expireAt,user, pass, profileId, timeOutInSeconds);
+            OpenVpnApi.startVpn(activity, ovpnFileContent, country, expireAt, user, pass, profileId, timeOutInSeconds);
 
             //connecting status
             vpnStart = true;
@@ -131,8 +130,9 @@ public class OboloiVPN extends Activity {
     }
 
     public String getServiceStatus() {
-       return vpnService.getStatus();
+        return vpnService.getStatus();
     }
+
     public String getExipreAt() {
         return vpnService.getExpireAt();
     }
@@ -140,7 +140,7 @@ public class OboloiVPN extends Activity {
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.e("connection intent" , "from openvpn");
+            Log.e("connection intent", "from openvpn");
             try {
                 setStatus(intent.getStringExtra("state"));
             } catch (Exception e) {
@@ -167,7 +167,7 @@ public class OboloiVPN extends Activity {
     };
 
     public void setStatus(String connectionState) {
-        if (connectionState!= null) {
+        if (connectionState != null) {
             switch (connectionState) {
                 case "DISCONNECTED":
                     vpnStart = false;
@@ -179,21 +179,21 @@ public class OboloiVPN extends Activity {
                     break;
             }
             if (listener != null) listener.onVPNStatusChanged(connectionState);
-        }else{
+        } else {
 
         }
 
     }
 
     public void updateConnectionStatus(String duration, String lastPacketReceive, String byteIn, String byteOut) {
-        if(duration == null) duration = "";
-        if(lastPacketReceive == null) lastPacketReceive = "";
+        if (duration == null) duration = "";
+        if (lastPacketReceive == null) lastPacketReceive = "";
 
-        if(byteIn == null) byteIn = "";
+        if (byteIn == null) byteIn = "";
 
-        if(byteOut == null) byteOut = "";
+        if (byteOut == null) byteOut = "";
 
-        if(listener != null) listener.onConnectionStatusChanged(duration , lastPacketReceive, byteIn , byteOut);
+        if (listener != null) listener.onConnectionStatusChanged(duration, lastPacketReceive, byteIn, byteOut);
         //binding.durationTv.setText("Duration: " + duration);
         //binding.lastPacketReceiveTv.setText("Packet Received: " + lastPacketReceive + " second ago");
         //binding.byteInTv.setText("Bytes In: " + byteIn);

@@ -16,8 +16,6 @@ import de.blinkt.openvpn.core.ProfileManager;
 
 public class OnBootReceiver extends BroadcastReceiver {
 
-
-
 	// Debug: am broadcast -a android.intent.action.BOOT_COMPLETED
 	@Override
 	public void onReceive(Context context, Intent intent) {
