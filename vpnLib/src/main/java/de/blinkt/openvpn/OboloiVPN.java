@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import de.blinkt.openvpn.core.ConnectionStatus;
 import de.blinkt.openvpn.core.OpenVPNService;
 import de.blinkt.openvpn.core.OpenVPNThread;
 import de.blinkt.openvpn.core.VpnStatus;
@@ -43,6 +44,20 @@ public class OboloiVPN extends Activity {
         OboloiVPN.vpnThread = new OpenVPNThread();
         OboloiVPN.vpnService = new OpenVPNService();
         VpnStatus.initLogCache(activity.getCacheDir());
+        VpnStatus.addStateListener(  new VpnStatus.StateListener(){
+
+            @Override
+            public void updateState(String state, String logmessage, int localizedResId, ConnectionStatus level, Intent Intent) {
+
+                Log.d("updateState ****** ",logmessage);
+            }
+
+            @Override
+            public void setConnectedVPN(String uuid) {
+                Log.d("uuid ****** ",uuid);
+
+            }
+        });
     }
 
     public OboloiVPN() {
