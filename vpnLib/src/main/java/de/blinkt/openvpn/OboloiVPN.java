@@ -72,6 +72,7 @@ public class OboloiVPN extends Activity {
             return;
         }
         if (listener != null) listener.onProfileLoaded(true);
+
     }
 
     public void onPermissionChanged(boolean permitted) {
