@@ -49,8 +49,7 @@ public class OboloiVPN extends Activity {
 
             @Override
             public void updateState(String state, String logmessage, int localizedResId, ConnectionStatus level, Intent Intent) {
-
-                Log.d("updateState ****** ",logmessage);
+                if (listener != null) listener.onVPNStatusChanged(state);
             }
 
             @Override
