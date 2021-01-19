@@ -53,7 +53,7 @@ public class OboloiVPN extends Activity {
 
             @Override
             public void setConnectedVPN(String uuid) {
-                Log.d("uuid ****** ",uuid);
+                Log.d("uuid ****** cihan ",uuid);
 
             }
         });
