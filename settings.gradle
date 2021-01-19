@@ -1,1 +1,3 @@
 include ':vpnLib'
+include('hubbox')
+project(':hubbox').projectDir = file('C:\\PROJELER\\github\\hubboxm2m\\')

@@ -49,6 +49,7 @@ public class OboloiVPN extends Activity {
         OboloiVPN.vpnStart = false;
         OboloiVPN.vpnThread = new OpenVPNThread();
         OboloiVPN.vpnService = new OpenVPNService();
+
     }
 
     public void setOnVPNStatusChangeListener(OnVPNStatusChangeListener listener) {
@@ -167,6 +168,9 @@ public class OboloiVPN extends Activity {
     };
 
     public void setStatus(String connectionState) {
+
+        Log.d("connectionState MY:",connectionState);
+
         if (connectionState != null) {
             switch (connectionState) {
                 case "DISCONNECTED":
@@ -175,7 +179,6 @@ public class OboloiVPN extends Activity {
                     break;
                 case "CONNECTED":
                     vpnStart = true;// it will use after restart this activity
-
                     break;
             }
             if (listener != null) listener.onVPNStatusChanged(connectionState);
