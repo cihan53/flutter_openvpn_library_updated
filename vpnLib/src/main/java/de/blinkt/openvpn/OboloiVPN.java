@@ -46,7 +46,6 @@ public class OboloiVPN extends Activity {
         VpnStatus.initLogCache(activity.getCacheDir());
 
         VpnStatus.addStateListener(  new VpnStatus.StateListener(){
-
             @Override
             public void updateState(String state, String logmessage, int localizedResId, ConnectionStatus level, Intent Intent) {
                 if (listener != null) listener.onVPNStatusChanged(state);
