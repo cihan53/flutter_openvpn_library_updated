@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2016 Arne Schwabe
+ * Copyroight (c) 2012-2016 Arne Schwabe
  * Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
  */
 
@@ -113,6 +113,8 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     private boolean mStarting = false;
     private long mConnecttime;
     private OpenVPNManagement mManagement;
+    private static int connectionIndex = 0;
+
     /*private final IBinder mBinder = new IOpenVPNServiceInternal.Stub() {
 
         @Override
@@ -528,6 +530,8 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        connectionIndex = startId;
+
         if (intent != null && intent.getBooleanExtra(ALWAYS_SHOW_NOTIFICATION, false))
             mNotificationAlwaysVisible = true;
 
@@ -613,13 +617,18 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
         }).start();
         final Integer timeOutInSeconds = mProfile.timeOutInSeconds;
         if(timeOutInSeconds != null) {
-            new Thread(new Runnable() {
+             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    int index = connectionIndex;
                     try {
                         Thread.sleep(timeOutInSeconds * 1000);
                     } catch (Exception e) {
 
+                    }
+                    if (index != connectionIndex) {
+                        Log.d("TIMEOUT", "PREVENTED");
+                        return;
                     }
                     if (!("CONNECTED".equals(state)) && !("DISCONNECTED".equals(state))) {
                         try {
@@ -636,6 +645,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
                     }
                 }
             }).start();
+
         }else{
             Log.d("VPNex" , "null timeout");
         }
@@ -1430,6 +1440,9 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
     //sending message to main activity
     private void sendMessage(String state) {
+        if("DISCONNECTED".equals(state)  || "EXPIRED".equals(state) || "EXITED".equals(state) || "NOPROCESS".equals(state) ){
+
+        }
         Intent intent = new Intent("connectionState");
         intent.putExtra("state", state);
         this.state = state;
